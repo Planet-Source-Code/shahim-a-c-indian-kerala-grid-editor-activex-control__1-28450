@@ -1,0 +1,247 @@
+VERSION 5.00
+Begin VB.PropertyPage GeneralTab 
+   Caption         =   "General"
+   ClientHeight    =   2865
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   4875
+   PaletteMode     =   0  'Halftone
+   ScaleHeight     =   2865
+   ScaleWidth      =   4875
+   Begin VB.Frame Frame1 
+      Height          =   2775
+      Left            =   30
+      TabIndex        =   0
+      Top             =   0
+      Width           =   4770
+      Begin VB.PictureBox Picture1 
+         AutoSize        =   -1  'True
+         BorderStyle     =   0  'None
+         Height          =   480
+         Left            =   90
+         Picture         =   "General.pgx":0000
+         ScaleHeight     =   480
+         ScaleWidth      =   480
+         TabIndex        =   17
+         Top             =   210
+         Width           =   480
+      End
+      Begin VB.CheckBox ChkShowEdit 
+         Height          =   300
+         Left            =   3705
+         TabIndex        =   12
+         Top             =   990
+         Width           =   195
+      End
+      Begin VB.CheckBox ChkWordWrap 
+         Height          =   300
+         Left            =   1485
+         TabIndex        =   14
+         Top             =   1410
+         Width           =   330
+      End
+      Begin VB.CheckBox ChkNewRows 
+         Height          =   300
+         Left            =   1485
+         TabIndex        =   10
+         Top             =   990
+         Width           =   360
+      End
+      Begin VB.TextBox TxtFormat 
+         Height          =   810
+         Left            =   1500
+         MultiLine       =   -1  'True
+         TabIndex        =   16
+         Top             =   1770
+         Width           =   2970
+      End
+      Begin VB.TextBox TxtFixedCols 
+         Height          =   285
+         Left            =   3705
+         TabIndex        =   8
+         Top             =   633
+         Width           =   705
+      End
+      Begin VB.TextBox TxtFixedRows 
+         Height          =   285
+         Left            =   3705
+         TabIndex        =   4
+         Top             =   225
+         Width           =   705
+      End
+      Begin VB.TextBox TxtCols 
+         Height          =   285
+         Left            =   1485
+         TabIndex        =   6
+         Top             =   633
+         Width           =   705
+      End
+      Begin VB.TextBox TxtRows 
+         Height          =   285
+         Left            =   1485
+         TabIndex        =   2
+         Top             =   225
+         Width           =   705
+      End
+      Begin VB.Label Label8 
+         AutoSize        =   -1  'True
+         Caption         =   "Word Wra&p"
+         Height          =   195
+         Left            =   540
+         TabIndex        =   13
+         Top             =   1410
+         Width           =   825
+      End
+      Begin VB.Label Label7 
+         AutoSize        =   -1  'True
+         Caption         =   "Show &Editor"
+         Height          =   195
+         Left            =   2670
+         TabIndex        =   11
+         Top             =   1035
+         Width           =   855
+      End
+      Begin VB.Label Label6 
+         AutoSize        =   -1  'True
+         Caption         =   "Create New Rows"
+         Height          =   195
+         Left            =   75
+         TabIndex        =   9
+         Top             =   1035
+         Width           =   1290
+      End
+      Begin VB.Label Label5 
+         AutoSize        =   -1  'True
+         Caption         =   "Format &String"
+         Height          =   195
+         Left            =   420
+         TabIndex        =   15
+         Top             =   1800
+         Width           =   930
+      End
+      Begin VB.Label Label4 
+         AutoSize        =   -1  'True
+         Caption         =   "Fixed Co&ls"
+         Height          =   195
+         Left            =   2805
+         TabIndex        =   7
+         Top             =   678
+         Width           =   720
+      End
+      Begin VB.Label Label3 
+         AutoSize        =   -1  'True
+         Caption         =   "Fixed Ro&ws"
+         Height          =   195
+         Left            =   2700
+         TabIndex        =   3
+         Top             =   270
+         Width           =   825
+      End
+      Begin VB.Label Label2 
+         AutoSize        =   -1  'True
+         Caption         =   "&Cols"
+         Height          =   195
+         Left            =   1065
+         TabIndex        =   5
+         Top             =   678
+         Width           =   300
+      End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "&Rows"
+         Height          =   195
+         Left            =   960
+         TabIndex        =   1
+         Top             =   270
+         Width           =   405
+      End
+   End
+End
+Attribute VB_Name = "GeneralTab"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = True
+Attribute VB_PredeclaredId = False
+Attribute VB_Exposed = True
+Private Sub ChkNewRows_Click()
+Changed = True
+End Sub
+
+Private Sub ChkShowEdit_Click()
+Changed = True
+End Sub
+
+Private Sub ChkWordWrap_Click()
+Changed = True
+End Sub
+
+Private Sub PropertyPage_ApplyChanges()
+On Error Resume Next
+With SelectedControls(0)
+    .Rows = TxtRows
+    .Cols = TxtCols
+    .FixedRows = TxtFixedRows
+    .FixedCols = TxtFixedCols
+    .FormatString = TxtFormat
+     If ChkNewRows.Value = 1 Then
+        .CreateNewRows = True
+     Else
+        .CreateNewRows = False
+     End If
+     If ChkShowEdit = 1 Then
+        .ShowEditor = True
+     Else
+        .ShowEditor = False
+     End If
+     If ChkWordWrap = 1 Then
+        .WordWrap = True
+     Else
+        .WordWrap = False
+     End If
+End With
+End Sub
+
+Private Sub PropertyPage_SelectionChanged()
+On Error Resume Next
+With SelectedControls(0)
+    TxtRows = .Rows
+    TxtCols = .Cols
+    TxtFixedRows = .FixedRows
+    TxtFixedCols = .FixedCols
+    TxtFormat = .FormatString
+     If .CreateNewRows = True Then
+        ChkNewRows.Value = 1
+     Else
+        ChkNewRows.Value = 0
+     End If
+     If .ShowEditor = True Then
+        ChkShowEdit = 1
+     Else
+        ChkShowEdit = 0
+     End If
+     If .WordWrap = True Then
+        ChkWordWrap = 1
+     Else
+        ChkWordWrap = 0
+     End If
+End With
+End Sub
+
+Private Sub TxtCols_Change()
+    Changed = True
+End Sub
+
+Private Sub TxtFixedCols_Change()
+    Changed = True
+End Sub
+
+Private Sub TxtFixedRows_Change()
+    Changed = True
+End Sub
+
+Private Sub TxtFormat_Change()
+Changed = True
+End Sub
+
+Private Sub TxtRows_Change()
+    Changed = True
+End Sub
